@@ -1,0 +1,138 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'button';
+
+html, body {
+	font-size: 16px;
+	overflow-y: hidden; /* Leave, or CodeMirror will display a weird huge div over the code when scrolling down */
+}
+
+h1 {
+	font-size: 1.5rem;
+	@apply font-semibold;
+}
+h2 {
+	font-size: 1.25rem;
+	@apply font-semibold;
+}
+h3 {
+	font-size: 1.1rem;
+	@apply font-semibold;
+}
+
+#app {
+	@apply h-full min-h-full;
+}
+.content-section {
+	padding-top: 40px;
+}
+
+.animated {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+.animated.fast {
+	-webkit-animation-duration: 800ms;
+			animation-duration: 800ms;
+}
+
+.animated.slow {
+	-webkit-animation-duration: 1500ms;
+			animation-duration: 1500ms;
+}
+
+@-webkit-keyframes flash {
+	from,
+	50%,
+	to {
+		opacity: 1;
+	}
+
+	25%,
+	75% {
+		opacity: 0;
+	}
+}
+@keyframes flash {
+	from,
+	50%,
+	to {
+		opacity: 1;
+	}
+
+	25%,
+	75% {
+		opacity: 0;
+	}
+}
+.flash {
+	-webkit-animation-name: flash;
+	animation-name: flash;
+
+	animation-iteration-count: infinite;
+}
+
+.link {
+	@apply transition-colors duration-200;
+}
+
+.link--default {
+	@apply text-black;
+	
+}
+.link--default:hover,
+.link--default-hovered {
+	@apply text-gray-500 underline;
+}
+
+
+.chartjs-tooltip {
+	@apply absolute z-30 mt-3 text-black transition-all duration-150 rounded shadow-lg pointer-events-none bg-gray-50;
+
+	transform: 'translate(-50%, 0)';
+}
+
+.chartjs-tooltip table {
+	@apply m-2;
+}
+
+.chartjs-tooltip table thead tr th:first-child{
+	@apply pb-1;
+}
+
+.chartjs-tooltip table tbody tr.noted-row {
+	@apply pb-2 italic text-center;
+}
+
+.chartjs-tooltip .positive {
+	@apply block font-semibold text-center text-green-500;
+}
+.chartjs-tooltip .negative {
+	@apply block font-semibold text-center text-red-500;
+}
+.chartjs-tooltip .break-head td  {
+	@apply text-lg font-semibold ;
+}
+
+.chartjs-tooltip .break-row {
+	@apply block text-center;
+}
+
+.chartjs-tooltip .break-row span {
+	@apply text-lg font-semibold;
+}
+
+
+.chartjs-tooltip {
+	min-width: 220px;
+	max-width: 220px;
+	text-align: center;
+}
+
+.chartjs-tooltip table {
+	@apply w-full;
+}
