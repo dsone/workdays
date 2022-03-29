@@ -12,7 +12,6 @@ export default function Table(props) {
 	let [ tableData, setTableData ] = createSignal(false);
 	let [ tableConfig, setTableConfig ] = [ ...props.config ];
 
-	let i = 0;
 	createEffect(() => {
 		if (!props.data()) { return; }
 
