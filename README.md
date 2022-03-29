@@ -24,4 +24,6 @@ Your work needs to start and end on the same day for this tool to accurately wor
 <img src="./example.png" />
 
 ## Attribution
-All emojis designed by [OpenMoji](https://openmoji.org/) – the open-source emoji and icon project. License: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+All emojis designed by [OpenMoji](https://openmoji.org/) – the open-source emoji and icon project. License: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0).  
+  
+String compression taken from [lz-string](https://github.com/pieroxy/lz-string), MIT licensed.
