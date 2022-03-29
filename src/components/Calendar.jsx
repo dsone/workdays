@@ -11,7 +11,6 @@ export default function Calendar(props) {
 	let [ currentSelection, setCurrentSelection ] = createSignal({ year: false, month: false, weekDay: false }); // undefined is to trigger in onMount the chart creation by forcing a "change" to "all"
 
 	let cal = new CalendarInstance();
-
 	const firstToUpper = str => {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	};
@@ -147,8 +146,8 @@ export default function Calendar(props) {
 		}
 
 		cal = new CalendarInstance();
-		props.workData().forEach(row => {
-			row = row.split(';');
+		props.workData().forEach(origRow => {
+			let row = origRow.split(';');
 
 			let _breaks = [];
 			if (row[3] !== '-') {
@@ -177,6 +176,7 @@ export default function Calendar(props) {
 				vacation: _vac,
 				holiday: _hol,
 				notes: row[7].length ? row[7] : undefined,
+				origRow
 			});
 
 			cal.addWorkday(_wd);

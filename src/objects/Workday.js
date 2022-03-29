@@ -14,7 +14,7 @@ export default class Workday {
 	 * 
 	 * @param {JSON} configuration object
 	 */
-	constructor({ date, startTime, endTime, breaks, sick, vacation, holiday, notes }) {
+	constructor({ date, startTime, endTime, breaks, sick, vacation, holiday, notes, origRow }) {
 		this.setDate(date);
 		this.setStartTime(startTime);
 		this.setEndTime(endTime);
@@ -24,6 +24,7 @@ export default class Workday {
 		this.setVacation(vacation);
 		this.setHoliday(holiday);
 		this.notes = notes ?? '';
+		this.origRow = origRow;
 	}
 
 	getNotes() {
@@ -277,5 +278,9 @@ export default class Workday {
 		diff -= this.getTotalBreakTime();
 
 		return diff;
+	}
+
+	export() {
+		return this.origRow;
 	}
 }
