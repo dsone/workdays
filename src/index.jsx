@@ -1,10 +1,12 @@
-import { createSignal } from 'solid-js';
+import { createSignal, onMount } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import __ from './objects/I18n';
+import LZString from './objects/LZString';
 
 import './css/index.css';
 import Home from './pages/home';
+import Notify from './objects/Notify';
 
 function App() {
 	let [ workData, setWorkData ] = createSignal([]);
@@ -16,7 +18,7 @@ function App() {
 		e.preventDefault();
 		if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
 			if (e.dataTransfer.files[0].type !== 'text/csv') {
-				alert('Only CSV files are supported');
+				Notify('Error', 'Only CSV files are supported', 'danger');
 				return;
 			}
 			let name = e.dataTransfer.files[0]?.name || null;
@@ -31,7 +33,7 @@ function App() {
 				csvData = csvData.trim().split('\n');
 				let header = csvData[0].split(';');
 				if (header.length !== 8) { 
-					alert('Invalid CSV file, need 8 columns with semicolon as separator');
+					Notify('Error', 'Invalid CSV file, need 8 columns with semicolon as separator', 'danger');
 					return;
 				}
 				let data = csvData.slice(1);
@@ -117,6 +119,32 @@ function App() {
 			a.click();
 			a.remove();
 	};
+
+	onMount(() => {
+		if (location.hash.match(/#(.+?)=/)) {
+			try {
+				let fileName = decodeURIComponent(location.hash.match(/#(.+?)=/)[1]);
+				let data = location.hash.substring(1).replace(`${ fileName }=`, '');
+				console.log(data);
+
+				let csvData = LZString.decompressFromEncodedURIComponent(data);  // returns null if invalid input
+				if (!csvData) {
+					throw('Decompression failed');
+				}
+
+				if (csvData.match(/!##!/)) {
+					historyMap[`${ fileName }_csv`] = 1;
+					setHistory([ { name: fileName, type: 'csv', data: csvData } ]);
+
+					setWorkData(csvData.split('!##!'));
+					Notify('Success!', 'Imported data from link', 'success');
+				}
+			} catch (e) {
+				console.error(e);
+				Notify('Invalid Link', 'Invalid data found in hash', 'danger');
+			}
+		}
+	});
 
 	return (
 		<div class="z-50 h-full min-h-full" onDrop={ e => dropFile(e) } onDragOver={ e => startDrag(e) } onDragLeave={ e => stopDrag(e) } onClick={ e => { isDragEnter() ? stopDrag(e) : '' }}>
