@@ -57,7 +57,7 @@ export default function ChartElement(props) {
 		let compressedCSV = LZString.compressToEncodedURIComponent(csvString);
 
 		navigator.clipboard.writeText(
-			`${ location.protocol }//${ location.hostname }${ (location.port.length > 0 ? ':' + location.port : '') }#${ encodeURIComponent(props.fileName()) }=${ compressedCSV }`
+			`${ location.protocol }//${ location.hostname }${ (location.port.length > 0 ? ':' + location.port : '') }#${ encodeURIComponent(props.fileName().replace(/[^A-Za-z0-9\.]/g, '')) }=${ compressedCSV }`
 			).then(
 				_ => {
 					Notify('Success', 'A shareable link was written into your clipboard!', 'success');
