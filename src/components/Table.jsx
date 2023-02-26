@@ -56,21 +56,21 @@ export default function Table(props) {
 							return (<tr classList={{ 'bg-green-100': day().Arbeitszeit > 0 && day().Arbeitszeit <= 28800000, 'bg-red-100': day().Arbeitszeit > 0 && day().Arbeitszeit > 28800000, 'bg-gray-200': day().day.sick, 'bg-blue-200': day().day.vacation || day().day.holiday, 'opacity-50 text-xs': day().day.vacation || day().day.holiday || day().day.sick /* on purpose like this */ }}>
 								<td class="p-1">
 									<Show when={ day().Arbeitszeit > 0 && day().Arbeitszeit > 28800000 }>
-										<IconTime class="pr-1 inline h-6 cursor-help" /> 
+										<IconTime class="pr-1 inline h-6 cursor-help -mr-7" /> 
 									</Show>
 									<Show when={ day().day.vacation }>
-										<IconVacation class="pr-1 inline h-6 cursor-help" /> 
+										<IconVacation class="pr-1 inline h-6 cursor-help -mr-7" /> 
 									</Show>
 									<Show when={ day().day.holiday }>
-										<IconHolidays class="pr-1 inline h-6 cursor-help" /> 
+										<IconHolidays class="pr-1 inline h-6 cursor-help -mr-7" /> 
 									</Show>
 									<Show when={ day().day.sick }>
-										<IconSick class="pr-1 inline h-6 cursor-help" /> 
+										<IconSick class="pr-1 inline h-6 cursor-help -mr-7" /> 
 									</Show>
 									<Show when={ day().Arbeitszeit > 0 && !day().day.sick && day().Arbeitszeit < 28800000 }>
-										<IconWork class="pr-1 inline h-6 cursor-help" /> 
+										<IconWork class="pr-1 inline h-6 cursor-help -mr-7" /> 
 									</Show>
-									{ day().Datum }
+									<span class="ml-8">{ day().Datum }</span>
 								</td>
 								<td class="p-1">{ day().Start }</td>
 								<td class="p-1">{ day().Ende }</td>
