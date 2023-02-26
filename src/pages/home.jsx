@@ -435,7 +435,10 @@ export default function Home(props) {
 							<div class="grid grid-cols-4 gap-2">
 								<Show when={ summary().sickDays > 0 }>
 									<div class="p-2">
-										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-orange-300">
+										<div 
+											class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-orange-300"
+											title={ __('home.Sick days') }
+										>
 											<IconSick class="pr-1 inline h-8 cursor-help" /> 
 											<span class="cursor-default pl-1 pr-2">{ summary().sickDays }</span>
 										</div>
@@ -443,7 +446,10 @@ export default function Home(props) {
 								</Show>
 								<Show when={ summary().vacationDays > 0 }>
 									<div class="p-2">
-										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-green-300">
+										<div 
+											class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-green-300"
+											title={ __('home.Vacation days') }
+										>
 											<IconVacation class="pr-1 inline h-6 cursor-help" /> 
 											<span class="cursor-default pl-1 pr-2">{ summary().vacationDays }</span>
 										</div>
@@ -451,7 +457,10 @@ export default function Home(props) {
 								</Show>
 								<Show when={ summary().holidayDays > 0 }>
 									<div class="p-2">
-										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-blue-300">
+										<div 
+											class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-blue-300"
+											title={ __('home.Holidays') }
+										>
 											<IconHolidays class="pr-1 inline h-6 cursor-help" /> 
 											<span class="cursor-default pl-1 pr-2">{ summary().holidayDays }</span>
 										</div>
@@ -459,7 +468,10 @@ export default function Home(props) {
 								</Show>
 								<Show when={ summary().workDays > 0 }>
 									<div class="p-2">
-										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300">
+										<div 
+											class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300"
+											title={ __('home.Work days') }
+										>
 											<IconWork class="pr-1 inline h-6 cursor-help" /> 
 											<span class="cursor-default pl-1 pr-2">{ summary().workDays } { __('home.days') }</span>
 										</div>
@@ -470,7 +482,11 @@ export default function Home(props) {
 							<div class="grid grid-cols-4 gap-2">
 								<Show when={ !!summary().late }>
 									<div class="p-2">
-										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" title={ `${ summary().late }%` } style={`background-color: ${ getColor(summary().late) }` }>
+										<div 
+											class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" 
+											title={ `${ __('home.Left late') } ${ summary().late }%` } 
+											style={`background-color: ${ getColor(summary().late) }` }
+										>
 											<IconTime class="pr-1 inline h-6 cursor-help" /> 
 											<span class="cursor-default pl-1 pr-2">{ summary().late }%</span>
 										</div>
@@ -479,7 +495,10 @@ export default function Home(props) {
 
 								<Show when={ !!summary().workTimeMinutes }>
 									<div class="p-2">
-										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" title={ `${ summary().workTimeMinutes }mins` }>
+										<div 
+											class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" 
+											title={ `${ __('home.Worked') } ${ summary().workTimeMinutes }mins` }
+										>
 											<IconWork class="pr-1 inline h-6 cursor-help" /> 
 											<span class="cursor-default pl-1 pr-2">
 												<Milliseconds to="h" from={ summary().workTimeMinutes * 60 * 1000 } omitSeconds />h
@@ -490,7 +509,10 @@ export default function Home(props) {
 
 								<Show when={ !!summary().breakTimeMinutes }>
 									<div class="p-2">
-										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" title={ `${ summary().breakTimeMinutes }mins` }>
+										<div 
+											class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" 
+											title={ `${ __('home.Lunch time') } ${ summary().breakTimeMinutes }mins` }
+										>
 											<IconLunch class="pr-1 inline h-6 cursor-help" /> 
 											<span class="cursor-default pl-1 pr-2">
 												<Milliseconds to="h" from={ summary().breakTimeMinutes * 60 * 1000 } omitSeconds />h
@@ -505,7 +527,7 @@ export default function Home(props) {
 											class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-blue-100" 
 											title={ `${ summary().overtimeMinutes > 0 ? __('home.Overtime') : __('home.Short time') } ~${ (summary().overtimeMinutes / 60).toFixed(0) }h` }
 										>
-											<IconTime class="pr-1 inline h-6 cursor-help" /> 
+											<IconTime class="pr-1 inline h-6 cursor-help" title={ __('home.Lunch time') } /> 
 											<span class="cursor-default pl-1 pr-2">
 												<Milliseconds to="m" from={ summary().overtimeMinutes * 60 * 1000 } omitSeconds />mins
 											</span>
@@ -522,7 +544,10 @@ export default function Home(props) {
 										<div class="p-2">
 											<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300">
 												<IconWork class="pr-1 inline h-4 cursor-help" /> 
-												<span class="cursor-default pl-1 pr-2" title={ `${ Math.floor(summary().workTimeMinutes / summary().workDays) }mins/${ __('home.day') }` }>
+												<span 
+													class="cursor-default pl-1 pr-2" 
+													title={ `${ Math.floor(summary().workTimeMinutes / summary().workDays) }mins/${ __('home.day') }` }
+												>
 													<Milliseconds to="h" from={ Math.floor((summary().workTimeMinutes * 60 * 1000) / summary().workDays) } omitSeconds />h/{ __('home.day') }
 												</span>
 											</div>
@@ -531,7 +556,10 @@ export default function Home(props) {
 										<div class="p-2">
 											<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300">
 												<IconLunch class="pr-1 inline h-4 cursor-help" /> 
-												<span class="cursor-default pl-1 pr-2" title={ `${ Math.floor(summary().breakTimeMinutes / summary().workDays / 60 * 100)/100 }h/${ __('home.day') }` }>
+												<span 
+													class="cursor-default pl-1 pr-2" 
+													title={ `${ Math.floor(summary().breakTimeMinutes / summary().workDays / 60 * 100)/100 }h/${ __('home.day') }` }
+												>
 													<Milliseconds from={ Math.floor(summary().breakTimeMinutes / summary().workDays) * 60 * 1000 } omitSeconds />mins/{ __('home.day') }
 												</span>
 											</div>
@@ -547,7 +575,10 @@ export default function Home(props) {
 										<div class="p-2">
 											<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300">
 												<IconWork class="pr-1 inline h-4 cursor-help" /> 
-												<span class="cursor-default pl-1 pr-2" title={ `${ Math.floor(calendar().getTotalWorkTime() / 60) }mins` }>
+												<span 
+													class="cursor-default pl-1 pr-2" 
+													title={ `${ Math.floor(calendar().getTotalWorkTime() / 60) }mins` }
+												>
 													<Milliseconds to="h" from={ calendar().getTotalWorkTime() * 1000 } omitSeconds />h
 												</span>
 											</div>
@@ -556,7 +587,10 @@ export default function Home(props) {
 										<div class="p-2">
 											<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300">
 												<IconLunch class="pr-1 inline h-4 cursor-help" /> 
-												<span class="cursor-default pl-1 pr-2" title={ `${ Math.floor((calendar().getTotalWorkTime() / 60 / calendar().getTotalWorkDays())) }min/${ __('home.day') }` }>
+												<span 
+													class="cursor-default pl-1 pr-2" 
+													title={ `${ Math.floor((calendar().getTotalWorkTime() / 60 / calendar().getTotalWorkDays())) }min/${ __('home.day') }` }
+												>
 													<Milliseconds to="h" from={ (calendar().getTotalWorkTime() / calendar().getTotalWorkDays()) * 1000 } omitSeconds />h/{ __('home.day') }
 												</span>
 											</div>

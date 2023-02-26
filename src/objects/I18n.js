@@ -35,6 +35,13 @@ const i18n = new Rosetta({
 			'Break times': "Pausenzeiten",
 			'Overtime': "Überstunden",
 			'Short time': "Kurzzeit",
+			'Left late': "Später aufgehört",
+			'Worked': "Gearbeitet",
+			'Lunch time': "Mittagspause",  // differs from break times
+			'Sick days': "Krankheitstage",
+			'Vacation days': "Urlaubstage",
+			'Holidays': "Feiertage",
+			'Work days': "Arbeitstage",
 		},
 		calendar: {
 			'Total': "Gesamt",
