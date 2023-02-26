@@ -91,9 +91,7 @@ export default class Calendar {
 	 * @returns {int}	Total time of work for all workdays, in seconds.
 	 */
 	getTotalWorkTime() {
-		return this.summary.getDays().reduce((total, day) => {
-			return total + day.getWorkTime();
-		}, 0);
+		return this.summary.getDays().reduce((total, day) => total + day.getWorkTime(), 0);
 	}
 
 	/**

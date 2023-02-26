@@ -43,7 +43,7 @@ export default class Workday {
 		if (date.match(/^\d{4}-\d{2}-\d{2}$/)) {
 			this.date = date;
 		} else {
-			throw('Invalid date, must be in format YYYY-MM-DD');
+			throw(`Invalid date, must be in format YYYY-MM-DD, value: ${ date }`);
 		}
 	}
 
@@ -55,7 +55,7 @@ export default class Workday {
 		if (startTime.match(/^\d{2}:\d{2}$/)) {
 			this.startTime = startTime;
 		} else {
-			throw('Invalid start time, must be in format HH:mm');
+			throw(`Invalid start time, must be in format HH:mm, value: ${ startTime }`);
 		}
 	}
 
