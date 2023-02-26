@@ -33,6 +33,8 @@ const i18n = new Rosetta({
 			'Totals': "Gesamt",
 			'Partial sick days and half vacation days are counted towards sick/vacation and work days': "Anteilige Krankheitstage und halbe Urlaubstage werden sowohl als Arbeitstag als auch als Krankheits-/Urlaubtstag gezählt",
 			'Break times': "Pausenzeiten",
+			'Overtime': "Überstunden",
+			'Short time': "Kurzzeit",
 		},
 		calendar: {
 			'Total': "Gesamt",

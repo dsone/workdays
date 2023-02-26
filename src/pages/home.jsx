@@ -369,11 +369,14 @@ export default function Home(props) {
 		oldData.rawData = { ...newChartData };
 
 		setSummary({
-			sickDays: newChartData.sickDays, vacationDays: newChartData.vacationDays, 
-			holidayDays: newChartData.holidayDays, workDays: newChartData.workDays,
+			sickDays: newChartData.sickDays, 
+			vacationDays: newChartData.vacationDays, 
+			holidayDays: newChartData.holidayDays, 
+			workDays: newChartData.workDays,
 			workTimeMinutes: workTime / 60,
 			breakTimeMinutes: breakTime / 60,
-			late: Math.floor( ((100 / workedDays) * late) * 100 ) / 100
+			late: Math.floor( ((100 / workedDays) * late) * 100 ) / 100,
+			overtimeMinutes: (workTime / 60) - (newChartData.workDays * 480),  // assume 8h workday
 		});
 		setChartdata(oldData);
 		setChartTile(`${title}`);
@@ -392,15 +395,36 @@ export default function Home(props) {
 				<Show when={ JSON.stringify(summary()) !== '{}' }>
 					<div>
 						<ul class="flex justify-center items-center my-4 font-semibold">
-							<li class="cursor-pointer py-2 px-4 border-b-8" classList={{ 'border-green-400': tab() === 1 }} onClick={ e => setTab(1) }>{ __('home.Chart') }</li>
-							<li class="cursor-pointer py-2 px-4 border-b-8" classList={{ 'border-green-400': tab() === 2 }} onClick={ e => setTab(2) }>{ __('home.Table') }</li>
+							<li 
+								class="cursor-pointer py-2 px-4 border-b-8" 
+								classList={{ 'border-green-400': tab() === 1 }} 
+								onClick={ e => setTab(1) }
+							>
+								{ __('home.Chart') }
+							</li>
+							<li 
+								class="cursor-pointer py-2 px-4 border-b-8" 
+								classList={{ 'border-green-400': tab() === 2 }} 
+								onClick={ e => setTab(2) }
+							>
+								{ __('home.Table') }
+							</li>
 						</ul>
 						<div class="relative">
 							<Show when={ tab() === 1 }>
-								<ChartElement chart={ chartData } title={ chartTitle } config={ [ config, setConfig ] } fileName={ fileName } />
+								<ChartElement 
+									chart={ chartData } 
+									title={ chartTitle } 
+									config={ [ config, setConfig ] } 
+									fileName={ fileName } 
+								/>
 							</Show>
 							<Show when={ tab() === 2 }>
-								<Table data={ chartData } title={ chartTitle } config={ [ config, setConfig ] } />
+								<Table 
+									data={ chartData } 
+									title={ chartTitle } 
+									config={ [ config, setConfig ] } 
+								/>
 							</Show>
 						</div>
 					</div>
@@ -408,71 +432,85 @@ export default function Home(props) {
 					<div class="mt-2 flex flex-row flex-wrap items-center justify-center">
 						<div class="mb-4">
 							<h3 class="w-full text-center">{ __('home.Summary') }</h3>
-							<div class="flex flex-row items-center justify-center">
+							<div class="grid grid-cols-4 gap-2">
 								<Show when={ summary().sickDays > 0 }>
-								<div class="p-2">
-									<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-orange-300">
-										<IconSick class="pr-1 inline h-8 cursor-help" /> 
-										<span class="cursor-default pl-1 pr-2">{ summary().sickDays }</span>
+									<div class="p-2">
+										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-orange-300">
+											<IconSick class="pr-1 inline h-8 cursor-help" /> 
+											<span class="cursor-default pl-1 pr-2">{ summary().sickDays }</span>
+										</div>
 									</div>
-								</div>
 								</Show>
 								<Show when={ summary().vacationDays > 0 }>
-								<div class="p-2">
-									<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-green-300">
-										<IconVacation class="pr-1 inline h-6 cursor-help" /> 
-										<span class="cursor-default pl-1 pr-2">{ summary().vacationDays }</span>
+									<div class="p-2">
+										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-green-300">
+											<IconVacation class="pr-1 inline h-6 cursor-help" /> 
+											<span class="cursor-default pl-1 pr-2">{ summary().vacationDays }</span>
+										</div>
 									</div>
-								</div>
 								</Show>
 								<Show when={ summary().holidayDays > 0 }>
-								<div class="p-2">
-									<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-blue-300">
-										<IconHolidays class="pr-1 inline h-6 cursor-help" /> 
-										<span class="cursor-default pl-1 pr-2">{ summary().holidayDays }</span>
+									<div class="p-2">
+										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-blue-300">
+											<IconHolidays class="pr-1 inline h-6 cursor-help" /> 
+											<span class="cursor-default pl-1 pr-2">{ summary().holidayDays }</span>
+										</div>
 									</div>
-								</div>
 								</Show>
 								<Show when={ summary().workDays > 0 }>
-								<div class="p-2">
-									<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300">
-										<IconWork class="pr-1 inline h-6 cursor-help" /> 
-										<span class="cursor-default pl-1 pr-2">{ summary().workDays } { __('home.days') }</span>
+									<div class="p-2">
+										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300">
+											<IconWork class="pr-1 inline h-6 cursor-help" /> 
+											<span class="cursor-default pl-1 pr-2">{ summary().workDays } { __('home.days') }</span>
+										</div>
 									</div>
-								</div>
 								</Show>
 							</div>
 
-							<div class="flex flex-row items-center justify-center">
+							<div class="grid grid-cols-4 gap-2">
 								<Show when={ !!summary().late }>
-								<div class="p-2">
-									<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" title={ `${ summary().late }%` } style={`background-color: ${ getColor(summary().late) }` }>
-										<IconTime class="pr-1 inline h-6 cursor-help" /> 
-										<span class="cursor-default pl-1 pr-2">{ summary().late }%</span>
+									<div class="p-2">
+										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" title={ `${ summary().late }%` } style={`background-color: ${ getColor(summary().late) }` }>
+											<IconTime class="pr-1 inline h-6 cursor-help" /> 
+											<span class="cursor-default pl-1 pr-2">{ summary().late }%</span>
+										</div>
 									</div>
-								</div>
 								</Show>
 
 								<Show when={ !!summary().workTimeMinutes }>
-								<div class="p-2">
-									<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" title={ `${ summary().workTimeMinutes }mins` }>
-										<IconWork class="pr-1 inline h-6 cursor-help" /> 
-										<span class="cursor-default pl-1 pr-2">
-											<Milliseconds to="h" from={ summary().workTimeMinutes * 60 * 1000 } omitSeconds />h
-										</span>
+									<div class="p-2">
+										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" title={ `${ summary().workTimeMinutes }mins` }>
+											<IconWork class="pr-1 inline h-6 cursor-help" /> 
+											<span class="cursor-default pl-1 pr-2">
+												<Milliseconds to="h" from={ summary().workTimeMinutes * 60 * 1000 } omitSeconds />h
+											</span>
+										</div>
 									</div>
-								</div>
 								</Show>
 
 								<Show when={ !!summary().breakTimeMinutes }>
-								<div class="p-2">
-									<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" title={ `${ summary().breakTimeMinutes }mins` }>
-										<IconLunch class="pr-1 inline h-6 cursor-help" /> 
-										<span class="cursor-default pl-1 pr-2">
-											<Milliseconds to="h" from={ summary().breakTimeMinutes * 60 * 1000 } omitSeconds />h
-										</span>
+									<div class="p-2">
+										<div class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-gray-300" title={ `${ summary().breakTimeMinutes }mins` }>
+											<IconLunch class="pr-1 inline h-6 cursor-help" /> 
+											<span class="cursor-default pl-1 pr-2">
+												<Milliseconds to="h" from={ summary().breakTimeMinutes * 60 * 1000 } omitSeconds />h
+											</span>
+										</div>
 									</div>
-								</div>
+								</Show>
+
+								<Show when={ !!summary().overtimeMinutes }>
+									<div class="p-2">
+										<div 
+											class="px-2 py-0 flex justify-center items-center text-lg rounded-full bg-blue-100" 
+											title={ `${ summary().overtimeMinutes > 0 ? __('home.Overtime') : __('home.Short time') } ~${ (summary().overtimeMinutes / 60).toFixed(0) }h` }
+										>
+											<IconTime class="pr-1 inline h-6 cursor-help" /> 
+											<span class="cursor-default pl-1 pr-2">
+												<Milliseconds to="m" from={ summary().overtimeMinutes * 60 * 1000 } omitSeconds />mins
+											</span>
+										</div>
+									</div>
 								</Show>
 							</div>
 						</div>
