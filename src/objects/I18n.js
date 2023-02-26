@@ -70,6 +70,11 @@ const i18n = new Rosetta({
 			'Overtime probability': "Überstunden Wahrscheinlichkeit",
 			'Vacation': "Urlaub",
 			'Work': "Arbeit",
+		},
+		Context: {
+			'Share link': "Link teilen",
+			'Save Image': "Bild speichern",
+			'Save as CSV': "Als CSV speichern",
 		}
 	},
 });

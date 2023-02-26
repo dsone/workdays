@@ -70,35 +70,36 @@ export default function ChartElement(props) {
 
 	// https://stackoverflow.com/a/21015393
 	const getTextWidth = function(text, font) {
-			// re-use canvas object for better performance
-			const canvas = document.createElement('canvas');
-			const context = canvas.getContext("2d");
-			context.font = font;
-			const metrics = context.measureText(text);
-			return metrics.width;
-		};
+		// re-use canvas object for better performance
+		const canvas = document.createElement('canvas');
+		const context = canvas.getContext('2d');
+		context.font = font;
+		const metrics = context.measureText(text);
+		return metrics.width;
+	};
 	const resizeAndExport = (height, width) => {
-			let c = document.createElement('canvas');
-				c.width = width; c.height = height+30;
-			let ctx = c.getContext('2d');
-				ctx.fillStyle = '#FFFFFF';  // some things never change with ChartJs :}
-				ctx.fillRect(0, 0, width, height+30);
-				ctx.drawImage(refCanvas, 0, 0, refCanvas.width, refCanvas.height, 0, 30, width, height);
+		let c = document.createElement('canvas');
+			c.width = width; c.height = height+30;
+		let ctx = c.getContext('2d');
+			ctx.fillStyle = '#FFFFFF';  // some things never change with ChartJs :}
+			ctx.fillRect(0, 0, width, height+30);
+			ctx.drawImage(refCanvas, 0, 0, refCanvas.width, refCanvas.height, 0, 30, width, height);
 
-				// Set source
-				ctx.fillStyle = '#b1b7c0';
-				ctx.font = "14px Arial";
-				ctx.fillText(props.fileName(), 32, 60);
+			// Set source
+			ctx.fillStyle = '#b1b7c0';
+			ctx.font = '14px Arial';
+			ctx.fillText(props.fileName(), 32, 60);
 
-				// set title
-				ctx.fillStyle = '#000';
-				ctx.font = "bold 20px Arial";
-				ctx.fillText(props.title(), (width - getTextWidth(props.title(), 'bold 22px Arial'))/2, 26);
-			let dataUrl = c.toDataURL();
-			c.remove();
+			// set title
+			ctx.fillStyle = '#000';
+			ctx.font = 'bold 20px Arial';
+			ctx.fillText(props.title(), (width - getTextWidth(props.title(), 'bold 22px Arial'))/2, 26);
+		let dataUrl = c.toDataURL();
+		c.remove();
 
-			return dataUrl;
-		};
+		return dataUrl;
+	};
+
 	const saveImage = function() {
 			let base64 = resizeAndExport(1000, 1600);
 			let url = base64.replace(/^data:image\/.+?;/, 'data:application/octet-stream;');
@@ -113,6 +114,23 @@ export default function ChartElement(props) {
 			link.remove();  // Firefox needs this to be inserted, while Chrome doesn't care
 			setHideContextMenu(true);
 		};
+
+	const exportDataAsCsv = () => {
+		let csv = chart().data.datasets[0].days.reduce(
+			(acc, day) => {
+				acc.push(day.export() + "\r\n");
+				return acc;
+			}, 
+			[ "date;startWork;endWork;breaks;sick;vacation;holiday;notes\r\n" ]
+		).join('');
+
+		let link = document.createElement('a');
+			link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+			link.download = `${ props.title() }.csv`;
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+	}
 
 	return <div class="my-6">
 		<h2 class="text-center text-xl">{ props.title() || __('ChartElement.Workdays') }</h2>
@@ -130,6 +148,13 @@ export default function ChartElement(props) {
 			</div>
 		</div>
 
-		<ContextMenu id="context-menu" pointer={ mousePointer() } hide={ hideContextMenu() } share={ e => share() } saveImage={ e => saveImage() } />
+		<ContextMenu 
+			id="context-menu" 
+			pointer={ mousePointer() } 
+			hide={ hideContextMenu() } 
+			share={ e => share() } 
+			saveImage={ e => saveImage() } 
+			exportDataAsCsv={ e => exportDataAsCsv() }
+		/>
 	</div>;
 }
