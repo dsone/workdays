@@ -203,7 +203,7 @@ export default function Calendar(props) {
 			throw('Calendar: props.workData is not defined');
 		}
 
-		props.getCalendar && props.getCalendar(cal);
+		props.setCalendar && props.setCalendar(cal);
 	});
 
 	return (

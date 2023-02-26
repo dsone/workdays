@@ -387,7 +387,7 @@ export default function Home(props) {
 	return (
 		<div class="z-10 content-section flex items-start justify-center h-full min-h-full" style="min-height: 100%;">
 			<div class="lg:max-w-7xl w-full" style="min-height: 100%; height: 100%;">
-				<Calendar workData={ props.workData } getCalendar={ setCalendar } changeChartData={ changeChartData } />
+				<Calendar workData={ props.workData } setCalendar={ setCalendar } changeChartData={ changeChartData } />
 
 				<Show when={ JSON.stringify(summary()) !== '{}' }>
 					<div>
