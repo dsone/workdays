@@ -2,7 +2,7 @@ import __ from '../objects/I18n';
 
 export default function IconTime(props) {
 	return (<svg class={ props.class } viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
-		<title>{ __('icon.Overtime probability') }</title>
+		<title>{ props.title ?? __('icon.Overtime probability') }</title>
 		<g>
 			<path fill="#9b9b9a" stroke="#9b9b9a" stroke-miterlimit="10" stroke-width="2" d="M53.9958,40.5232h0.6992c1.1,0,2-0.9,2-2 v-5.1541c0-1.1-0.9-2-2-2h-0.6991H50v9.1648L53.9958,40.5232z"/>
 			<path fill="#9b9b9a" stroke="none" stroke-miterlimit="10" stroke-width="2" d="M25,21V9c0-0.5523,0.4477-1,1-1h20 c0.5523,0,1,0.4477,1,1v12"/>
